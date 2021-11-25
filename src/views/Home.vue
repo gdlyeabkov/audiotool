@@ -3,8 +3,15 @@
     <Header />
     <audio ref="bus" src="../../sounds/bus.mp3" class="bus" />
     <audio id="upperBus" ref="upperBus" src="../../sounds/upperBus.mp3" class="upperBus" />
+    <audio id="doNote" ref="doNotePlayer" src="../../sounds/notes/do.wav" class="upperBus" />
+    <audio id="reNote" ref="reNotePlayer" src="../../sounds/notes/re.wav" class="upperBus" />
+    <audio id="miNote" ref="miNotePlayer" src="../../sounds/notes/mi.wav" class="upperBus" />
+    <audio id="faNote" ref="faNotePlayer" src="../../sounds/notes/fa.wav" class="upperBus" />
+    <audio id="solNote" ref="solNotePlayer" src="../../sounds/notes/sol.mp3" class="upperBus" />
+    <audio id="laNote" ref="laNotePlayer" src="../../sounds/notes/la.wav" class="upperBus" />
+    <audio id="siNote" ref="siNotePlayer" src="../../sounds/notes/si.mp3" class="upperBus" />
     <div class="piano">
-      <div v-for="pianoKey in pianoKeys" :id="`pianoKeyId_${busHotkeys[pianoKey]}`" :key="pianoKey" @click="playSound(2 / pianoKeys * pianoKey)" class="pianoKey" :data-bus-hot-keys-index="pianoKey" data-bus-is-minor="true">
+      <div v-for="pianoKey in pianoKeys" :id="`pianoKeyId_${busHotkeys[pianoKey]}`" :key="pianoKey" @click="playSound(pianoKey)" class="pianoKey" :data-bus-hot-keys-index="pianoKey" data-bus-is-minor="true">
         <div v-if="pianoKey < pianoKeys" @click="playUpperSound(2 / pianoKeys * pianoKey)" class="pianoUpperKey"  :id="`pianoKeyId_${upperBusHotkeys[pianoKey]}`" :data-bus-hot-keys-index="pianoKey" data-bus-is-major="true">
         </div>
       </div>
@@ -21,7 +28,7 @@ export default {
   name: 'Home',
   data(){
     return {
-      pianoKeys: 26,
+      pianoKeys: 7,
       busHotkeys: {
         1: 'q',
         2: 'w',
@@ -87,7 +94,7 @@ export default {
       } else if(activePianoKey.hasAttribute('data-bus-is-major')) {
         activePianoKey.style.backgroundColor = 'rgb(125, 125, 125)'
       }
-      this.playSound(2 / this.pianoKeys * activePianoKey.getAttribute('data-bus-hot-keys-index'))
+      this.playSound(Number(activePianoKey.getAttribute('data-bus-hot-keys-index')))
       if(activePianoKey.hasAttribute('data-bus-is-minor')) {
         setTimeout(() => activePianoKey.style.backgroundColor = 'rgb(255, 255, 255)', 300)
       } else if(activePianoKey.hasAttribute('data-bus-is-major')) {
@@ -96,16 +103,27 @@ export default {
     })
   },
   methods: {
-    playSound(rate){
-      // this.$refs.bus.play()
-      let minor = new Audio(this.$refs.bus.src)
-      minor.playbackRate = rate
-      minor.play()
+    async playSound(noteIdx) {
+      // let minor = new Audio(this.$refs.bus.src)
+      let minor = null
+      if(noteIdx === 1) {
+        minor = new Audio(this.$refs.doNotePlayer.src)
+      } else if(noteIdx === 2) {
+        minor = new Audio(this.$refs.reNotePlayer.src)
+      } else if(noteIdx === 3) {
+        minor = new Audio(this.$refs.miNotePlayer.src)
+      } else if(noteIdx === 4) {
+        minor = new Audio(this.$refs.faNotePlayer.src)
+      } else if(noteIdx === 5) {
+        minor = new Audio(this.$refs.solNotePlayer.src)
+      } else if(noteIdx === 6) {
+        minor = new Audio(this.$refs.laNotePlayer.src)
+      } else if(noteIdx === 7) {
+        minor = new Audio(this.$refs.siNotePlayer.src)
+      }
+      await minor.play()
     },
     playUpperSound(rate) {
-      // console.log(`this.$refs.upperBus: ${Object.values(this.$refs.upperBus)}`)
-      console.log(`this.$refs.upperBus: ${document.getElementById("upperBus").volume}`)
-      // this.$refs.upperBus.play()
       let major = new Audio(this.$refs.upperBus.src)
       major.playbackRate = rate
       major.play()
