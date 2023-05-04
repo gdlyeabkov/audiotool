@@ -17,6 +17,11 @@
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 
+const endMajorColor = 'rgb(0, 0, 0)'
+const endMinorColor = 'rgb(255, 255, 255)'
+const startMajorColor = 'rgb(125, 125, 125)'
+const startMinorColor = 'rgb(225, 225, 225)'
+
 export default {
   name: 'Home',
   data(){
@@ -82,30 +87,26 @@ export default {
   mounted(){
     document.body.addEventListener('keyup', event => {
       let activePianoKey = document.getElementById(`pianoKeyId_${event.key}`)
-      if(activePianoKey.hasAttribute('data-bus-is-minor')) {
-        activePianoKey.style.backgroundColor = 'rgb(225, 225, 225)'
-      } else if(activePianoKey.hasAttribute('data-bus-is-major')) {
-        activePianoKey.style.backgroundColor = 'rgb(125, 125, 125)'
+      if (activePianoKey.hasAttribute('data-bus-is-minor')) {
+        activePianoKey.style.backgroundColor = startMinorColor
+      } else if (activePianoKey.hasAttribute('data-bus-is-major')) {
+        activePianoKey.style.backgroundColor = startMajorColor
       }
       this.playSound(2 / this.pianoKeys * activePianoKey.getAttribute('data-bus-hot-keys-index'))
-      if(activePianoKey.hasAttribute('data-bus-is-minor')) {
-        setTimeout(() => activePianoKey.style.backgroundColor = 'rgb(255, 255, 255)', 300)
-      } else if(activePianoKey.hasAttribute('data-bus-is-major')) {
-        setTimeout(() => activePianoKey.style.backgroundColor = 'rgb(0, 0, 0)', 300)
+      if (activePianoKey.hasAttribute('data-bus-is-minor')) {
+        setTimeout(() => activePianoKey.style.backgroundColor = endMinorColor, 300)
+      } else if (activePianoKey.hasAttribute('data-bus-is-major')) {
+        setTimeout(() => activePianoKey.style.backgroundColor = endMajorColor, 300)
       }
     })
   },
   methods: {
     playSound(rate){
-      // this.$refs.bus.play()
       let minor = new Audio(this.$refs.bus.src)
       minor.playbackRate = rate
       minor.play()
     },
     playUpperSound(rate) {
-      // console.log(`this.$refs.upperBus: ${Object.values(this.$refs.upperBus)}`)
-      console.log(`this.$refs.upperBus: ${document.getElementById("upperBus").volume}`)
-      // this.$refs.upperBus.play()
       let major = new Audio(this.$refs.upperBus.src)
       major.playbackRate = rate
       major.play()
