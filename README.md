@@ -1,19 +1,4 @@
-# diary
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# Audio tool
+### Audio tool is an open source web service for play a musical instrument.
+## Visit
+[The project is available at the link https://elegant-grape-tailor.glitch.me/](https://elegant-grape-tailor.glitch.me/)
